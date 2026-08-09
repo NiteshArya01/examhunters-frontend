@@ -1,0 +1,518 @@
+/* Base Container Styles */
+.exam-container {
+  min-height: 100vh;
+  background: #0f172a;
+  color: #f8fafc;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.exam-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 32px;
+  background: #1e293b;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.exam-title-group h2 {
+  margin: 0;
+  font-size: 20px;
+  color: #818cf8;
+}
+
+.q-count-badge {
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.exam-timer-box {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid #ef4444;
+  color: #fca5a5;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+.exam-body {
+  display: flex;
+  flex: 1;
+  padding: 24px;
+  gap: 24px;
+}
+
+.question-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.question-box {
+  background: #1e293b;
+  border-radius: 16px;
+  padding: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.question-box h3 {
+  margin-top: 0;
+  font-size: 18px;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.option-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.option-card:hover {
+  border-color: #6366f1;
+}
+
+.option-selected {
+  background: rgba(99, 102, 241, 0.2);
+  border-color: #6366f1;
+}
+
+.option-prefix {
+  font-weight: 700;
+  color: #818cf8;
+}
+
+.exam-nav-bar {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  gap: 12px;
+}
+
+.nav-btn, .submit-exam-btn {
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+}
+
+.nav-btn {
+  background: #334155;
+  color: #fff;
+}
+
+.nav-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.primary-btn {
+  background: #6366f1;
+}
+
+.submit-exam-btn, .sidebar-submit-btn {
+  background: #22c55e;
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Question Palette Sidebar */
+.palette-panel {
+  width: 280px;
+  background: #1e293b;
+  border-radius: 16px;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.palette-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  margin-top: 16px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.palette-btn {
+  padding: 10px;
+  background: #334155;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-answered {
+  background: #22c55e !important;
+}
+
+.btn-current {
+  border: 2px solid #38bdf8;
+}
+
+.palette-legend {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+.dot-current { background: #38bdf8; }
+.dot-answered { background: #22c55e; }
+.dot-unanswered { background: #334155; }
+
+.sidebar-submit-btn {
+  margin-top: 20px;
+  width: 100%;
+}
+
+/* SUMMARY & SCORECARD SCREEN */
+.summary-wrapper {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.summary-card {
+  width: 100%;
+  max-width: 650px;
+  background: rgba(30, 41, 59, 0.9);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 32px;
+  text-align: center;
+  color: #f8fafc;
+  box-sizing: border-box;
+}
+
+.trophy-icon { font-size: 48px; }
+.summary-header h2 { margin: 10px 0 0; color: #818cf8; font-size: 22px; }
+.summary-header p { color: #94a3b8; margin-top: 4px; font-size: 14px; }
+
+.score-badge {
+  background: rgba(99, 102, 241, 0.15);
+  border: 1px solid #6366f1;
+  padding: 18px;
+  border-radius: 12px;
+  margin: 20px 0;
+}
+.score-badge h1 { margin: 6px 0; font-size: 32px; color: #38bdf8; }
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.stat-box {
+  background: rgba(15, 23, 42, 0.6);
+  padding: 12px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-label { font-size: 12px; color: #94a3b8; }
+.stat-value { font-size: 18px; font-weight: 700; margin-top: 4px; }
+
+.text-blue { color: #38bdf8; }
+.text-yellow { color: #f59e0b; }
+.text-green { color: #4ade80; }
+.text-red { color: #fca5a5; }
+
+/* Action Buttons */
+.review-action-btns {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.retest-btn, .download-pdf-btn {
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  flex: 1;
+}
+
+.retest-btn { background: #d97706; color: #fff; }
+.download-pdf-btn { background: #8b5cf6; color: #fff; }
+
+/* Answer Key Section */
+.answer-key-section {
+  text-align: left;
+  margin-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 20px;
+}
+
+.review-title {
+  font-size: 17px;
+  color: #f8fafc;
+  margin-bottom: 16px;
+}
+
+.review-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.review-card {
+  background: #1e293b;
+  border-left: 5px solid #64748b;
+  border-radius: 10px;
+  padding: 14px;
+}
+
+.status-skipped { border-left-color: #f59e0b; }
+.status-correct { border-left-color: #22c55e; }
+.status-wrong { border-left-color: #ef4444; }
+
+.review-q-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.review-badge {
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.review-details p {
+  margin: 4px 0;
+  font-size: 13px;
+  color: #cbd5e1;
+}
+
+.correct-ans-text { color: #4ade80 !important; }
+.explanation-text { color: #38bdf8 !important; font-size: 12px !important; margin-top: 6px !important; }
+
+/* =================================================== */
+/* 📱 MOBILE & TABLET RESPONSIVE MEDIA QUERIES        */
+/* =================================================== */
+
+@media (max-width: 850px) {
+  .exam-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 14px 20px;
+  }
+
+  .exam-timer-box {
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  .exam-body {
+    flex-direction: column;
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .question-box {
+    padding: 18px;
+  }
+
+  .question-box h3 {
+    font-size: 16px;
+  }
+
+  .palette-panel {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .palette-grid {
+    grid-template-columns: repeat(8, 1fr);
+  }
+
+  .palette-legend {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 550px) {
+  .summary-card {
+    padding: 20px 14px;
+    border-radius: 14px;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .review-action-btns {
+    flex-direction: column;
+  }
+
+  .palette-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  .review-q-header {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .nav-btn, .submit-exam-btn {
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+}
+
+/* PRINT MEDIA QUERY FOR CLEAN PDF DOWNLOAD */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .summary-wrapper {
+    background: #ffffff !important;
+    padding: 0 !important;
+  }
+
+  .summary-card {
+    background: #ffffff !important;
+    color: #000000 !important;
+    box-shadow: none !important;
+    border: none !important;
+    max-width: 100% !important;
+  }
+
+  .review-card {
+    background: #f8fafc !important;
+    color: #000000 !important;
+    border: 1px solid #e2e8f0 !important;
+  }
+
+  .review-title, .review-q-header strong {
+    color: #000000 !important;
+  }
+
+  .correct-ans-text {
+    color: #16a34a !important;
+  }
+}
+
+/* =================================================== */
+/* 📄 PRINT MEDIA QUERY (FIX FOR FULL QUESTIONS PDF)   */
+/* =================================================== */
+@media print {
+  /* 1. छुपाने वाले एलिमेंट्स */
+  .no-print, 
+  .exam-header, 
+  .palette-panel, 
+  .exam-nav-bar,
+  .dashboard-btn,
+  .review-action-btns {
+    display: none !important;
+  }
+
+  /* 2. मुख्य कंटेनर और बॉडी का overflow रिसेट */
+  html, body, #root, .summary-wrapper, .summary-card {
+    background: #ffffff !important;
+    color: #000000 !important;
+    height: auto !important;
+    min-height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    position: static !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* 3. उत्तर कुंजी और कार्ड्स की अनगिनत प्रिंटिंग सुनिश्चित करें */
+  .answer-key-section, .review-list {
+    display: block !important;
+    overflow: visible !important;
+    height: auto !important;
+  }
+
+  .review-card {
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: 1px solid #cbd5e1 !important;
+    border-left: 5px solid #64748b !important;
+    margin-bottom: 12px !important;
+    padding: 12px !important;
+    page-break-inside: avoid !important; /* प्रश्न को बीच से टूटने से रोके */
+    break-inside: avoid !important;
+  }
+
+  /* 4. टेक्स्ट कलर्स प्रिंट फ्रेंडली बनाएं */
+  .review-title, .review-q-header strong, .review-details p {
+    color: #000000 !important;
+  }
+
+  .correct-ans-text {
+    color: #15803d !important; /* गहरा हरा रंग */
+  }
+
+  .explanation-text {
+    color: #0369a1 !important; /* गहरा नीला रंग */
+  }
+
+  .status-skipped { border-left-color: #d97706 !important; }
+  .status-correct { border-left-color: #16a34a !important; }
+  .status-wrong { border-left-color: #dc2626 !important; }
+}

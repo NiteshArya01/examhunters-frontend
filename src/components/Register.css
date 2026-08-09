@@ -1,0 +1,210 @@
+:root {
+  --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+  --card-bg: rgba(30, 41, 59, 0.75);
+  --accent-color: #6366f1;
+  --accent-hover: #4f46e5;
+  --text-main: #f8fafc;
+  --text-sub: #94a3b8;
+  --error-color: #ef4444;
+  --border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* Full Screen Container */
+.register-wrapper {
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-gradient);
+  padding: 20px 16px;
+  box-sizing: border-box;
+}
+
+/* Glassmorphism Card */
+.register-card {
+  width: 100%;
+  max-width: 440px;
+  background: var(--card-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  padding: 36px 32px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+  color: var(--text-main);
+}
+
+.register-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.brand-logo {
+  font-size: 40px;
+  margin-bottom: 6px;
+}
+
+.register-header h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  background: linear-gradient(to right, #818cf8, #c084fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.register-header p {
+  margin: 6px 0 0;
+  color: var(--text-sub);
+  font-size: 14px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 13px;
+  color: var(--text-sub);
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.form-group input {
+  padding: 12px 16px;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  color: var(--text-main);
+  font-size: 15px;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.form-group input:focus {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
+}
+
+.form-group input.input-error {
+  border-color: var(--error-color);
+}
+
+.field-error-msg {
+  color: var(--error-color);
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.error-alert {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid var(--error-color);
+  color: #fca5a5;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  margin-bottom: 18px;
+  text-align: center;
+}
+
+.register-btn {
+  width: 100%;
+  padding: 14px;
+  background: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.register-btn:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
+.register-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.register-footer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: var(--text-sub);
+}
+
+.register-footer a {
+  color: #818cf8;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.register-footer a:hover {
+  text-decoration: underline;
+}
+
+/* Spinner Animation */
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 480px) {
+  .register-card {
+    padding: 24px 20px;
+    border-radius: 16px;
+  }
+
+  .register-header h2 {
+    font-size: 24px;
+  }
+
+  .form-group input {
+    padding: 10px 12px;
+    font-size: 14px;
+  }
+
+  .register-btn {
+    padding: 12px;
+    font-size: 15px;
+  }
+}
+
+/* Success Message Screen Styles */
+.success-card {
+  text-align: center;
+}
+
+.success-body {
+  margin-top: 20px;
+}
+
+.success-msg {
+  color: var(--text-sub);
+  font-size: 15px;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}

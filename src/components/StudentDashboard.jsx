@@ -29,7 +29,7 @@ const StudentDashboard = () => {
 
   const handleLogout = () => {
     localStorage.clear();
-    navigate('/login', { replace: true });
+    navigate('/', { replace: true });
   };
 
   return (

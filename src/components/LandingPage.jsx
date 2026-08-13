@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API from '../api/axios';
 import './LandingPage.css';
@@ -20,6 +20,76 @@ const LandingPage = () => {
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
+
+  // 🚀 Slider State & Configuration
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const autoPlayRef = useRef(null);
+
+  const heroSlides = [
+    {
+      id: 1,
+      title: (
+        <>
+          Crack Your Dream Exam with <span>ExamHunters</span>
+        </>
+      ),
+      description:
+        'Free Online Platform for Topic-wise Daily Mock Tests, Chapter Practice Sets, Live Countdown Engine & Detailed Performance Analytics.',
+      primaryBtnText: '🚀 Get Started For Free',
+      primaryBtnAction: () => openAuthModal('register'),
+      secondaryBtnText: 'Explore Test Series ➔',
+      secondaryBtnLink: '#test-series',
+    },
+    {
+      id: 2,
+      title: (
+        <>
+          Topic-wise & <span>Chapter-wise Practice</span>
+        </>
+      ),
+      description:
+        'Master every subject step-by-step with structured practice tests, real-time timer countdowns, and immediate solution reviews.',
+      primaryBtnText: '📝 Start Practice Now',
+      primaryBtnAction: () => openAuthModal('login'),
+      secondaryBtnText: 'View Categories ➔',
+      secondaryBtnLink: '#test-series',
+    },
+    {
+      id: 3,
+      title: (
+        <>
+          Empowering Aspirants for <span>Better Results</span>
+        </>
+      ),
+      description:
+        'Join thousands of dedicated learners building confidence through regular mock testing and smart accuracy tracking.',
+      primaryBtnText: '🎯 Join ExamHunters Free',
+      primaryBtnAction: () => openAuthModal('register'),
+      secondaryBtnText: 'Career Guidance ➔',
+      secondaryBtnLink: '#career',
+    },
+  ];
+
+  // Auto-play interval for Slider
+  useEffect(() => {
+    autoPlayRef.current = nextSlide;
+  });
+
+  useEffect(() => {
+    const play = () => {
+      autoPlayRef.current();
+    };
+    const interval = setInterval(play, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev === heroSlides.length - 1 ? 0 : prev + 1));
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev === 0 ? heroSlides.length - 1 : prev - 1));
+  };
 
   useEffect(() => {
     fetchCategories();
@@ -43,7 +113,7 @@ const LandingPage = () => {
     if (alertMessage) {
       setMessage({ type: 'error', text: alertMessage });
     } else {
-      setMessage({ type: '', text: '' }); // डायरेक्ट लॉगिन/साइनअप पर मैसेज रिसेट करें
+      setMessage({ type: '', text: '' });
     }
     setAuthModal(modalType);
   };
@@ -51,7 +121,7 @@ const LandingPage = () => {
   // 🎯 Modal Close Handler
   const closeAuthModal = () => {
     setAuthModal(null);
-    setMessage({ type: '', text: '' }); // क्लोज करते समय मैसेज क्लियर करें
+    setMessage({ type: '', text: '' });
   };
 
   // Category Click Handler
@@ -127,6 +197,12 @@ const LandingPage = () => {
     }
   };
 
+  // Fallback image handler in case primary link faces CORS/network issue
+  const handleImageError = (e, backupSrc) => {
+    e.target.onerror = null;
+    e.target.src = backupSrc;
+  };
+
   return (
     <div className="landing-container">
       {/* Header Navigation */}
@@ -148,23 +224,45 @@ const LandingPage = () => {
         </div>
       </header>
 
-      {/* Hero Banner */}
+      {/* Hero Banner Slider Section */}
       <section className="hero-section">
-        <div className="hero-content">
-          <h1>
-            Crack Your Dream Govt Exam with <span>ExamHunters</span>
-          </h1>
-          <p>
-            Topic-wise Daily Mock Tests, Detailed Explanations, Live Countdown Engine & Performance Analytics for BPSC & Competitive Exams.
-          </p>
-          <div className="hero-cta-group">
-            <button className="btn-hero-primary" onClick={() => openAuthModal('register')}>
-              🚀 Get Started For Free
-            </button>
-            <a href="#test-series" className="btn-hero-secondary">
-              Explore Test Series ➔
-            </a>
-          </div>
+        <button className="slider-arrow prev-arrow" onClick={prevSlide} aria-label="Previous Slide">
+          &#10094;
+        </button>
+        
+        <div className="hero-slider-wrapper">
+          {heroSlides.map((slide, index) => (
+            <div
+              key={slide.id}
+              className={`hero-content slide ${index === currentSlide ? 'active-slide' : ''}`}
+            >
+              <h1>{slide.title}</h1>
+              <p>{slide.description}</p>
+              <div className="hero-cta-group">
+                <button className="btn-hero-primary" onClick={slide.primaryBtnAction}>
+                  {slide.primaryBtnText}
+                </button>
+                <a href={slide.secondaryBtnLink} className="btn-hero-secondary">
+                  {slide.secondaryBtnText}
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <button className="slider-arrow next-arrow" onClick={nextSlide} aria-label="Next Slide">
+          &#10095;
+        </button>
+
+        {/* Slider Dots Indicator */}
+        <div className="slider-dots">
+          {heroSlides.map((_, index) => (
+            <span
+              key={index}
+              className={`dot ${index === currentSlide ? 'active-dot' : ''}`}
+              onClick={() => setCurrentSlide(index)}
+            ></span>
+          ))}
         </div>
       </section>
 
@@ -172,7 +270,7 @@ const LandingPage = () => {
       <section id="test-series" className="section-padding">
         <h2 className="section-title">Available Exam Series</h2>
         <p className="sub-title-center" style={{ marginTop: '-20px', marginBottom: '30px' }}>
-          Explore our active test categories. Click to attempt tests.
+          Explore active test categories. Click to attempt practice tests for free.
         </p>
 
         {categoriesLoading ? (
@@ -191,7 +289,7 @@ const LandingPage = () => {
                   <span className="cat-card-icon">📚</span>
                 </div>
                 <h3>{cat.title}</h3>
-                <p>Daily Mock Tests, Date-wise Locked Schedules & Solutions</p>
+                <p>Topic-wise Practice Papers, Chapter Mock Tests & Solution Keys</p>
                 <button className="explore-cat-btn">Attempt Test Series ➔</button>
               </div>
             ))}
@@ -205,8 +303,8 @@ const LandingPage = () => {
         <div className="features-grid">
           <div className="feature-card">
             <div className="feature-icon">📝</div>
-            <h3>Date-wise Mock Papers</h3>
-            <p>Everyday new practice sets scheduled with live unlock timestamps.</p>
+            <h3>Topic & Chapter Tests</h3>
+            <p>Target specific subjects and strengthen individual chapters easily.</p>
           </div>
           <div className="feature-card">
             <div className="feature-icon">⏱️</div>
@@ -216,35 +314,118 @@ const LandingPage = () => {
           <div className="feature-card">
             <div className="feature-icon">📊</div>
             <h3>Instant Score & Analysis</h3>
-            <p>Accuracy stats, correct vs wrong breakdown & PDF review downloads.</p>
+            <p>Accuracy stats, correct vs wrong breakdown & detailed performance review.</p>
           </div>
         </div>
       </section>
 
-      {/* About & Vision Section */}
+      {/* ABOUT US SECTION - Indian Student Image */}
       <section id="about" className="section-padding">
-        <div className="two-col-layout">
-          <div>
+        <div className="split-row">
+          <div className="split-text-col">
+            <span className="section-badge">100% Free Platform</span>
             <h2 className="section-title text-left">About ExamHunters</h2>
             <p className="description-text">
-              ExamHunters is a modern learning platform created to bridge the gap between preparation and success for competitive exam aspirants.
+              <strong>ExamHunters</strong> is a completely <strong>free open digital learning platform</strong> designed to help aspirants practice and excel in competitive examinations without financial barriers.
             </p>
+            <p className="description-text">
+              We focus on building strong basics through <strong>Topic-wise Mock Tests, Chapter-wise Practice Sets, and Daily Question Drills</strong>. With real-time timer countdowns and detailed solution reviews, students can analyze their progress and achieve top results in every examination.
+            </p>
+            <div className="feature-pills">
+              <span>✔ Completely Free Access</span>
+              <span>✔ Topic-wise Practice Sets</span>
+              <span>✔ Detailed Answer Reviews</span>
+            </div>
           </div>
-          <div id="vision">
+          <div className="split-img-col">
+            <div className="img-frame">
+              <img
+                src="https://images.pexels.com/photos/1438081/pexels-photo-1438081.jpeg?auto=compress&cs=tinysrgb&w=800"
+                alt="Indian Student Studying Online"
+                className="split-img"
+                onError={(e) =>
+                  handleImageError(
+                    e,
+                    'https://images.pexels.com/photos/1181671/pexels-photo-1181671.jpeg?auto=compress&cs=tinysrgb&w=800'
+                  )
+                }
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* OUR VISION SECTION - Indian Student / Group Image (Zig-Zag) */}
+      <section id="vision" className="section-padding bg-alt">
+        <div className="split-row reverse-row">
+          <div className="split-img-col">
+            <div className="img-frame">
+              <img
+                src="https://images.pexels.com/photos/5905709/pexels-photo-5905709.jpeg?auto=compress&cs=tinysrgb&w=800"
+                alt="Indian Student Exam Preparation"
+                className="split-img"
+                onError={(e) =>
+                  handleImageError(
+                    e,
+                    'https://images.pexels.com/photos/159844/cellular-education-classroom-159844.jpeg?auto=compress&cs=tinysrgb&w=800'
+                  )
+                }
+              />
+            </div>
+          </div>
+          <div className="split-text-col">
+            <span className="section-badge badge-purple">Our Mission & Goal</span>
             <h2 className="section-title text-left">Our Vision</h2>
             <p className="description-text">
-              To empower every student with high-quality, structured test papers, instant feedback, and accessible digital learning resources.
+              Our core vision is to make quality exam preparation <strong>accessible to every student across urban and rural areas</strong> alike.
+            </p>
+            <p className="description-text">
+              We believe every dedicated aspirant deserves a fair chance to succeed. By providing structured chapter-level tests and smart accuracy analysis, we empower students to turn their hard work into outstanding performance.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Career Guidance */}
-      <section id="career" className="section-padding bg-alt">
-        <h2 className="section-title">Career & Exam Guidance</h2>
-        <p className="sub-title-center">
-          Structured guidance for BPSC TRE, Teacher Recruitment, IT Officers, and State Competitive Exams.
-        </p>
+      {/* MOTIVATIONAL CAREER GUIDANCE SECTION */}
+      <section id="career" className="section-padding">
+        <div className="career-header">
+          <h2 className="section-title">Career & Success Guidance</h2>
+          <p className="sub-title-center">
+            "Your Dream Job is Not Far Away — Consistency & Right Practice is All You Need!"
+          </p>
+        </div>
+
+        <div className="motivational-grid">
+          <div className="motivation-card">
+            <div className="m-icon">🎯</div>
+            <h3>1. Practice Daily</h3>
+            <p>
+              Consistency beats genius. Solving topic-wise mock tests daily helps build memory retention and subject confidence.
+            </p>
+          </div>
+          <div className="motivation-card">
+            <div className="m-icon">⚡</div>
+            <h3>2. Master Speed & Accuracy</h3>
+            <p>
+              Knowledge alone isn't enough; time management matters! Use our live countdown timer to train your mind for exam speed.
+            </p>
+          </div>
+          <div className="motivation-card">
+            <div className="m-icon">🏆</div>
+            <h3>3. Learn From Mistakes</h3>
+            <p>
+              Analyze your wrong answers after every test. Turning weak topics into strengths is the secret recipe of top scorers.
+            </p>
+          </div>
+        </div>
+
+        <div className="career-cta-banner">
+          <h3>Ready to Test Your Skill Level Today?</h3>
+          <p>Join ExamHunters for Free and Start Your Preparation Right Now.</p>
+          <button className="btn-hero-primary" onClick={() => openAuthModal('register')}>
+            🚀 Start Free Practice Test
+          </button>
+        </div>
       </section>
 
       {/* Footer */}
@@ -319,7 +500,7 @@ const LandingPage = () => {
             {/* REGISTER FORM */}
             {authModal === 'register' && (
               <form onSubmit={handleAuthSubmit} className="auth-form">
-                <h3>Create Account</h3>
+                <h3>Create Free Account</h3>
                 <p className="auth-sub">Start your exam preparation journey</p>
 
                 <div className="input-group">

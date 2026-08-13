@@ -84,6 +84,7 @@ const ExamWindow = () => {
     const obtainedMarks = (correctCount * marksPerQuestion).toFixed(2);
     const skipped = totalQuestions - attempted;
     const percentage = ((obtainedMarks / testData.totalMarks) * 100).toFixed(1);
+    const accuracy = attempted > 0 ? ((correctCount / attempted) * 100).toFixed(1) : 0;
 
     setScoreResult({
       totalQuestions,
@@ -94,6 +95,7 @@ const ExamWindow = () => {
       totalMarks: testData.totalMarks,
       obtainedMarks,
       percentage,
+      accuracy,
     });
 
     setIsSubmitted(true);
@@ -124,8 +126,25 @@ const ExamWindow = () => {
     return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
   };
 
-  if (loading) return <div className="exam-loading">Loading Question Paper...</div>;
-  if (error) return <div className="exam-error">{error}</div>;
+  // MATCHED LOADING UI WITH CATEGORY TESTS DESIGN
+  if (loading) {
+    return (
+      <div className="exam-container flex-center">
+        <div className="loading-state">
+          <div className="spinner"></div>
+          <p>Loading Question Paper...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="exam-container flex-center">
+        <div className="error-state">{error}</div>
+      </div>
+    );
+  }
 
   // 1. RESULT & ANSWER KEY REVIEW SCREEN
   if (isSubmitted && scoreResult) {
@@ -139,10 +158,10 @@ const ExamWindow = () => {
           </div>
 
           <div className="score-badge">
-  <span>Score</span>
-  <h1>{scoreResult.correctCount} / {scoreResult.totalQuestions}</h1>
-  <p>{scoreResult.accuracy}% Accuracy ({scoreResult.obtainedMarks} Marks Scored)</p>
-</div>
+            <span>Score</span>
+            <h1>{scoreResult.correctCount} / {scoreResult.totalQuestions}</h1>
+            <p>{scoreResult.accuracy}% Accuracy ({scoreResult.obtainedMarks} Marks Scored)</p>
+          </div>
 
           <div className="stats-grid">
             <div className="stat-box">

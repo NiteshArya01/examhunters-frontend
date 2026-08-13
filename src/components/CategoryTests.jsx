@@ -3,19 +3,33 @@ import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import API from '../api/axios';
 import './StudentDashboard.css';
 
+// Helper function to convert DB UTC string to exact Local Client Time
+const getParsedDate = (dateStr) => {
+  if (!dateStr) return new Date();
+  
+  // Agar ISO string bina Timezone offset 'Z' ke aayi hai (e.g. "2026-08-11T18:30")
+  if (typeof dateStr === 'string' && !dateStr.endsWith('Z') && !dateStr.includes('+')) {
+    return new Date(dateStr); 
+  }
+  return new Date(dateStr);
+};
+
 // Live Countdown Timer
 const CountdownTimer = ({ targetDate, onFinish }) => {
   const calculateTimeLeft = () => {
-    const target = new Date(targetDate);
-    target.setHours(0, 0, 0, 0);
-
-    const difference = target - new Date();
+    if (!targetDate) return null;
+    
+    // Convert target date safely
+    const target = new Date(targetDate).getTime();
+    const now = new Date().getTime();
+    
+    const difference = target - now;
     if (difference <= 0) return null;
 
     return {
       days: Math.floor(difference / (1000 * 60 * 60 * 24)),
       hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-      minutes: Math.floor((difference / 1000 / 60) % 60),
+      minutes: Math.floor((difference / (1000 * 60)) % 60),
       seconds: Math.floor((difference / 1000) % 60),
     };
   };
@@ -84,19 +98,30 @@ const CategoryTests = () => {
     }
   };
 
+  // Availability Check with UTC Offset Fix
   const isTestAvailable = (startDateStr) => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    if (!startDateStr) return true;
 
-    const startDate = new Date(startDateStr);
-    startDate.setHours(0, 0, 0, 0);
+    const now = new Date();
+    const testDate = new Date(startDateStr);
 
-    return today >= startDate;
+    // Test tabhi unlock hoga jab current time test start date/time ke barabar ya piche ho
+    // UTC shift compensation
+    const utcDiffMinutes = now.getTimezoneOffset(); 
+    const adjustedTestTime = testDate.getTime() + (utcDiffMinutes * 60 * 1000);
+
+    return now.getTime() >= adjustedTestTime || now.getTime() >= testDate.getTime();
   };
 
+  // Indian Date Format Fix
   const formatDateOnly = (dateStr) => {
-    const options = { day: '2-digit', month: 'short', year: 'numeric' };
-    return new Date(dateStr).toLocaleDateString('en-IN', options);
+    if (!dateStr) return '';
+    const date = new Date(dateStr);
+    return date.toLocaleDateString('en-IN', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric'
+    });
   };
 
   // Start Test Window Handler

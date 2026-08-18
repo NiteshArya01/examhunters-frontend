@@ -3,20 +3,28 @@ import { Navigate } from 'react-router-dom';
 
 const ProtectedRoute = ({ children, allowedRole }) => {
   const token = localStorage.getItem('token');
-  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  let user = {};
 
-  // 1. अगर यूज़र logged in नहीं है, तो लॉगिन पेज पर भेजें
+  // Safe parsing to avoid crash on back button
+  try {
+    user = JSON.parse(localStorage.getItem('user') || '{}');
+  } catch (e) {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    return <Navigate to="/login" replace />;
+  }
+
+  // 1. अगर टोकन नहीं है या यूज़र डेटा नहीं है
   if (!token || !user.role) {
     return <Navigate to="/login" replace />;
   }
 
-  // 2. अगर यूज़र का रोल Allowed Role से मैच नहीं करता (जैसे Student अगर Admin Page खोलना चाहे)
+  // 2. अगर यूज़र का रोल सही नहीं है
   if (allowedRole && user.role !== allowedRole) {
-    // Admin को उसके डैशबोर्ड पर और Student को उसके डैशबोर्ड पर रीडायरेक्ट करें
     return <Navigate to={user.role === 'admin' ? '/admin/dashboard' : '/student/dashboard'} replace />;
   }
 
-  // 3. अगर सब सही है, तो कंपोनेंट/पेज रेंडर करें
+  // 3. सब सही है तो पेज दिखाएं
   return children;
 };
 

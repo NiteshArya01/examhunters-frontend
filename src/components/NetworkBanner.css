@@ -1,0 +1,30 @@
+.global-network-banner {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px 16px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  animation: slideDownGlobal 0.3s ease-out;
+  box-sizing: border-box;
+}
+
+.global-offline { background: #ef4444; color: #ffffff; }
+.global-online { background: #22c55e; color: #ffffff; }
+
+@keyframes slideDownGlobal {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(0); }
+}
+
+@media print {
+  .global-network-banner { display: none !important; }
+}
